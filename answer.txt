@@ -8,6 +8,22 @@ Lab part 3 -Check Repository Status
 1.	What color is the filename? 
 The color of the filename is red.
 2.	What does "Untracked" mean? 
-The meaning of untracked its not connet to the repo
+The meaning of untracked its not connect to the repo
 
 Lab part 4 -Stage Changes
+1.	Why do you think Git requires a staging area?
+The command "git add *" is the highlight area for copy and paste
+
+Lab part 5 -Commit Changes
+1.	What is the commit message? 
+Its a note or message that can be review 
+2.	What is display after running git log?
+commit dc4e238b684977fb8fe6b87260e58e465cd22725 (HEAD -> master)
+Author: wilson <wilson.lin23@login.cuny.edu>
+Date:   Tue Sep 1 15:24:17 2026 -0400
+
+    README file created
+
+Lab part 8 -Make Another Changes
+1.	Do you see the changes in the remote repository?
+The answer in the repository it not all up to date and only show up to Lab 3's answer.

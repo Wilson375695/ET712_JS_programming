@@ -1,0 +1,22 @@
+body{
+    background-color: lightblue
+}
+div.qcc{
+    background-color: darkblue;
+    text-align: center;
+    color: aliceblue;
+    padding-top: 20px;
+    height: 8.4rem;
+}
+div.et{
+    border: ridge 2px white;
+    padding: 10px;
+    background-color: crimson;
+    width: 80%;
+    margin: 0px auto;
+    font-size: 1.5rem;
+    font-style: italic;
+}
+h2.greet{
+    text-align: center;
+}

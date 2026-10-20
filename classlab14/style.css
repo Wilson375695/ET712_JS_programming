@@ -1,0 +1,82 @@
+.maincontainer, .gallerycontainer{
+    width: 1000px;
+    height: 350px;
+    margin: auto;
+}
+.maincontainer{
+    position: relative;
+    z-index: 0;
+}
+.gallerycontainer{
+    overflow-x: scroll;
+    white-space: nowrap; /* ensure all image stay on the same line */
+    position: relative;
+    z-index: 1;
+}
+.galleryimage{
+    display: inline-block;
+    width: 502px;
+    height: 300px;
+    margin: -2px;
+    object-fit: cover;
+    object-position: center;
+    vertical-align: top;
+}
+.btnright, .btnleft{
+    position: absolute;
+    z-index: 2;
+    top: 40%;
+}
+.btnleft{
+    left: 1%;
+}
+.btnright{
+    right: 1%;
+}
+/* form events*/
+#myForm{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: azure;
+    width: 300px;
+    margin: 5rem auto;
+    padding: 3rem 5rem;
+}
+.submitbtn{
+    background-color: crimson;
+    padding: 0.5rem 2rem;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 3rem;
+    width: 100%;
+}
+.submitbtn:hover{
+    background-color: #333;
+}
+.msg{
+    font-style: italic;
+    color: crimson;
+    width: 300px;
+    margin: auto;
+}
+
+.passwordmsg{
+    color: gray;
+    font-size: 0.8rem;
+}
+#passwordError{
+    color: crimson;
+    font-style: italic;
+}
+.formsession{
+    margin-top: 1rem;
+}
+.disablebtn{
+    background-color: rgb(130, 130, 130, 0.8);
+    cursor: not-allowed;
+    margin-top: 3rem;
+    width: 100%;
+    padding: 0.5rem 2rem;
+    border-radius: 5px;
+}

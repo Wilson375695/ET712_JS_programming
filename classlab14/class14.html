@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassLab 14</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Wilson Lin</h1>
+    <h2>Window events</h2>
+    <section class="maincontainer">
+        <div class="gallerycontainer">
+            <img class="galleryimage" src="image/forest.jpg" alt="image of a forest road">
+            <img class="galleryimage" src="image/hill.jpg" alt="image of a hill">
+            <img class="galleryimage" src="image/roads.jpg" alt="image of a road">
+            <img class="galleryimage" src="image/trees.jpg" alt="image of trees">
+        </div>
+
+        <button class="btnright">&#x275F;</button>
+        <button class="btnleft">&#x275E;</button>
+    </section>
+
+    <h2>Form events</h2>
+    <form id="myForm"">
+        <div class="formsession">
+            <label for="username">Username: </label>
+           <input type="text" id="username" name="username" placeholder="Type username...">
+        </div>
+        <div class="formsession">
+            <label for="password">Password: </label>
+            <input type="text" id="password" name="password" placeholder="Enter a password..."> 
+            <p class="passwordmsg">Must be at least 8 characters</p>
+            <div id="passwordError">error</div>    
+        </div>
+        <button type="submit" class="submitbtn">submit</button>    
+
+        
+    </form>
+    <!-- display message using the data from the form-->
+     <div class="msg">
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

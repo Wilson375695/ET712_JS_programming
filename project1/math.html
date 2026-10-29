@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Game</title>
+    <link rel="stylesheet" href="styleproject1.css">
+</head>
+<body data-page="math">
+    <div class="game-wrap">
+        <h1>Math Fun</h1>
+        <p class="subtitle">Solve the problem and choose the right answer.</p>
+
+        <div class="math-box">
+            <div class="mode-row">
+                <span>Addition</span>
+                <label class="switch" aria-label="Toggle math mode">
+                    <input id="modeToggle" type="checkbox">
+                    <span class="slider"></span>
+                </label>
+                <span>Subtraction</span>
+            </div>
+
+            <div id="question">?</div>
+            <div id="answerGrid" class="answer-grid"></div>
+            <div id="status" class="status"></div>
+        </div>
+
+        <div class="controls">
+            <a class="home-btn" href="project1.html">Back to Home</a>
+        </div>
+    </div>
+
+    <script src="scriptproject1.js"></script>
+</body>
+</html>

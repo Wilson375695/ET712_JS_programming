@@ -16,7 +16,8 @@ img {
 .container {
     position: relative;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     overflow: hidden;
     background: linear-gradient(180deg, #fffbe7 0%, #ffe7b3 100%);
 }
@@ -37,7 +38,7 @@ img {
 
 .subject-card {
     position: absolute;
-    width: 130px;
+    width: 180px;
     text-align: center;
     z-index: 1;
     animation: float 3s ease-in-out infinite alternate;
@@ -58,8 +59,8 @@ img {
 }
 
 .subject-card img {
-    width: 96px;
-    height: 96px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
     border-radius: 18px;
 }
@@ -110,22 +111,23 @@ h1 {
 
 .board {
     display: grid;
-    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 18px;
 }
 
 .card {
+    min-width: 0;
     height: 150px;
-    border: 3px solid #9cc9f5;
-    border-radius: 18px;
-    background: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    user-select: none;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+}
+
+.card.flipped {
+    border-color: #ffb84d;
+    background: #fffaf0;
+}
+.card.selected {
+    border-color: #3ed24f;
+    box-shadow: 0 0 0 4px rgba(255, 184, 77, 0.35);
+    background: #fffaf0;
 }
 
 .card:hover {
@@ -133,15 +135,16 @@ h1 {
     box-shadow: 0 12px 22px rgba(0,0,0,0.08);
 }
 
-.card.flipped {
-    border-color: #ffb84d;
-    background: #fffaf0;
-}
-
 .card.matched {
     border-color: #5ecb7d;
     background: #edfef1;
     cursor: default;
+}
+
+.reset-btn {
+    margin-left: 12px;
+    border: none;
+    cursor: pointer;
 }
 
 .card-face {
@@ -168,12 +171,82 @@ h1 {
     font-size: 1.2rem;
 }
 
+.shape-game {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 10px;
+}
+
+.shape-column,
+.name-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 1;
+}
+
+.shape-item,
+.name-item {
+    width: 180px;
+    height: 110px;
+    border: 3px solid #000;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.shape-item.selected,
+.name-item.selected {
+    border-color: #ffb84d;
+    box-shadow: 0 0 0 4px rgba(255, 184, 77, 0.35);
+}
+
+.shape-item.matched,
+.name-item.matched {
+    border-color: #2ecc71;
+    background: #ecfff3;
+}
+
+.shape-item.wrong,
+.name-item.wrong {
+    border-color: #e53935;
+    box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.2);
+}
+
+.connector-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.reset-btn {
+    margin-left: 12px;
+    border: none;
+    cursor: pointer;
+}
+
 .shape {
     display: block;
     width: 58px;
     height: 58px;
     border: 4px solid #2563eb;
-    background: rgba(37, 99, 235, 0.15);
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.shape.hexagon {
+    clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
 }
 
 .shape.circle {
@@ -184,23 +257,158 @@ h1 {
     border-radius: 8px;
 }
 
-.shape.triangle {
-    width: 0;
-    height: 0;
-    border-left: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-bottom: 56px solid #2563eb;
-    background: transparent;
-    border-top: none;
-    border-radius: 0;
-}
-
 .shape.rectangle {
     width: 72px;
     height: 42px;
     border-radius: 8px;
 }
 
+.shape.triangle {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 56px solid #2563eb;
+    border-top: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.shape.oval {
+    width: 72px;
+    height: 52px;
+    border-radius: 50%;
+}
+
+.shape.diamond {
+    width: 52px;
+    height: 52px;
+    transform: rotate(45deg);
+    border-radius: 10px;
+}
+
+.shape.star {
+    width: 0;
+    height: 0;
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-bottom: 56px solid #2563eb;
+    background: transparent;
+    position: relative;
+    transform: rotate(180deg);
+}
+
+.shape.star::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 15px;
+    width: 0;
+    height: 0;
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-top: 56px solid #2563eb;
+}
+
+.shape {
+    position: relative;
+    display: block;
+    width: 58px;
+    height: 58px;
+    border: 4px solid #2563eb;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.shape.star {
+    position: relative;
+}
+
+.shape.heart {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    background: #2563eb;
+    border: none;
+    clip-path: polygon(
+        50% 95%,
+        10% 55%,
+        0% 35%,
+        5% 15%,
+        20% 5%,
+        38% 10%,
+        50% 25%,
+        62% 10%,
+        80% 5%,
+        95% 15%,
+        100% 35%,
+        90% 55%
+    );
+}
+
+.shape.pentagon {
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    border: none;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+.shape.heart::before,
+.shape.heart::after {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 44px;
+    background: transparent;
+    border: 4px solid #2563eb;
+    border-radius: 28px 28px 0 0;
+}
+
+.shape.heart::before {
+    left: 0;
+    top: 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.shape.heart::after {
+    right: 0;
+    top: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+.shape.hexagon {
+    position: relative;
+    width: 72px;
+    height: 68px;
+    background: #2563eb;
+    border: none;
+    clip-path: polygon(
+        25% 0%,
+        75% 0%,
+        100% 50%,
+        75% 100%,
+        25% 100%,
+        0% 50%
+    );
+}
+
+.shape.hexagon::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background: white;
+    clip-path: polygon(
+        25% 0%,
+        75% 0%,
+        100% 50%,
+        75% 100%,
+        25% 100%,
+        0% 50%
+    );
+}
 .controls {
     margin-top: 24px;
     display: flex;
@@ -364,6 +572,7 @@ h1 {
 @media (max-width: 640px) {
     .container {
         min-height: 100vh;
+        min-height: 100dvh;
         height: auto;
         overflow: visible;
         display: grid;
@@ -399,6 +608,17 @@ h1 {
         height: 100%;
     }
 
+    .subject-card img {
+        width: 76px;
+        height: 76px;
+    }
+
+    .game-wrap {
+        width: 94%;
+        padding: 20px 14px;
+        margin: 18px auto;
+    }
+
     .board {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
@@ -408,21 +628,24 @@ h1 {
         height: 125px;
     }
 
-    .game-wrap {
-        padding: 20px 14px;
-        margin: 18px auto;
-    }
-
-    .subject-card {
-        width: 100px;
-    }
-
-    .subject-card img {
-        width: 76px;
-        height: 76px;
-    }
-
     .answer-grid {
         grid-template-columns: 1fr;
+    }
+
+    .shape-game {
+        gap: 10px;
+        padding: 12px 0;
+    }
+
+    .shape-item,
+    .name-item {
+        width: min(140px, 40vw);
+        height: 90px;
+        font-size: 1rem;
+    }
+
+    .stats {
+        flex-wrap: wrap;
+        gap: 10px;
     }
 }

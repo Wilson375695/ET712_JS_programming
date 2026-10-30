@@ -172,20 +172,26 @@ function buildMatchGame(config) {
   const board = document.getElementById('board');
   const matchesEl = document.getElementById('matches');
   const turnsEl = document.getElementById('turns');
+  const resetButton = document.getElementById('resetGame');
 
   if (!board || !matchesEl || !turnsEl) return;
 
-  const cards = [];
-  config.items.forEach((item) => {
-    cards.push({ ...item, kind: 'a' });
-    cards.push({ ...item, kind: 'b' });
-  });
+  function shuffleCards() {
+    const newCards = [];
+    config.items.forEach((item) => {
+      newCards.push({ ...item, kind: 'a' });
+      newCards.push({ ...item, kind: 'b' });
+    });
 
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
+    for (let i = newCards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newCards[i], newCards[j]] = [newCards[j], newCards[i]];
+    }
+
+    return newCards;
   }
 
+  let cards = shuffleCards();
   let firstPick = null;
   let secondPick = null;
   let lockBoard = false;
@@ -205,89 +211,219 @@ function buildMatchGame(config) {
     }
   }
 
+  function resetBoard() {
+    board.innerHTML = '';
+    firstPick = null;
+    secondPick = null;
+    lockBoard = false;
+    matchedPairs = 0;
+    turns = 0;
+    matchesEl.textContent = '0';
+    turnsEl.textContent = '0';
+    cards = shuffleCards();
+    cards.forEach((item) => board.appendChild(makeCard(item)));
+  }
+
   function makeCard(item) {
-  const card = document.createElement('button');
-  card.type = 'button';
-  card.className = 'card';
-  card.dataset.id = item.id;
-  card.dataset.kind = item.kind;
-  card._item = item;
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'card';
+    card.dataset.id = item.id;
+    card.dataset.kind = item.kind;
 
-  const face = document.createElement('div');
-  face.className = 'card-face';
-  face.innerHTML = '<span class="hidden">?</span>';
-  card.appendChild(face);
-
-  showCard(card, item);
-
-  card.addEventListener('click', () => {
-    if (lockBoard || card.classList.contains('matched') || card === firstPick) {
-      return;
-    }
+    const face = document.createElement('div');
+    face.className = 'card-face';
+    face.innerHTML = '<span class="hidden">?</span>';
+    card.appendChild(face);
 
     showCard(card, item);
 
-    if (!firstPick) {
-      firstPick = card;
-      return;
-    }
-
-    secondPick = card;
-    turns += 1;
-    turnsEl.textContent = String(turns);
-
-    const isMatch = firstPick.dataset.id === secondPick.dataset.id;
-
-    if (isMatch) {
-      firstPick.classList.add('matched');
-      secondPick.classList.add('matched');
-      firstPick = null;
-      secondPick = null;
-      matchedPairs += 1;
-      matchesEl.textContent = String(matchedPairs);
-
-      if (matchedPairs === config.items.length) {
-        setTimeout(() => alert(config.successMessage), 250);
+    card.addEventListener('click', () => {
+      if (lockBoard || card.classList.contains('matched') || card === firstPick) {
+        return;
       }
-      return;
-    }
 
-    lockBoard = true;
-    setTimeout(() => {
-      firstPick = null;
-      secondPick = null;
-      lockBoard = false;
-    }, 700);
-  });
+      showCard(card, item);
 
-  return card;
-}
+      if (!firstPick) {
+        firstPick = card;
+        firstPick.classList.add('selected');
+        return;
+      }
+
+      secondPick = card;
+      secondPick.classList.add('selected');
+      turns += 1;
+      turnsEl.textContent = String(turns);
+
+      const isMatch = firstPick.dataset.id === secondPick.dataset.id;
+
+      if (isMatch) {
+        firstPick.classList.add('matched');
+        secondPick.classList.add('matched');
+        firstPick.classList.remove('selected');
+        secondPick.classList.remove('selected');
+        firstPick = null;
+        secondPick = null;
+        matchedPairs += 1;
+        matchesEl.textContent = String(matchedPairs);
+
+        if (matchedPairs === config.items.length) {
+          setTimeout(() => alert(config.successMessage), 250);
+        }
+        return;
+      }
+
+      lockBoard = true;
+      setTimeout(() => {
+        if (firstPick) firstPick.classList.remove('selected');
+        if (secondPick) secondPick.classList.remove('selected');
+        firstPick = null;
+        secondPick = null;
+        lockBoard = false;
+      }, 700);
+    });
+
+    return card;
+  }
 
   cards.forEach((item) => board.appendChild(makeCard(item)));
+
+  if (resetButton) {
+    resetButton.addEventListener('click', resetBoard);
+  }
 }
 
 function initShapePage() {
-  const shapes = [
+  const allShapes = [
     { id: 'circle', name: 'Circle', type: 'circle' },
     { id: 'square', name: 'Square', type: 'square' },
     { id: 'triangle', name: 'Triangle', type: 'triangle' },
-    { id: 'rectangle', name: 'Rectangle', type: 'rectangle' }
+    { id: 'rectangle', name: 'Rectangle', type: 'rectangle' },
+    { id: 'oval', name: 'Oval', type: 'oval' },
+    { id: 'diamond', name: 'Diamond', type: 'diamond' },
+    { id: 'hexagon', name: 'Hexagon', type: 'hexagon' },
+    { id: 'star', name: 'Star', type: 'star' },
+    { id: 'heart', name: 'Heart', type: 'heart' },
+    { id: 'pentagon', name: 'Pentagon', type: 'pentagon' }
   ];
 
-  buildMatchGame({
-    items: shapes,
-    successMessage: 'Amazing! You matched all the shapes and names!',
-    renderA(item) {
-      const label = document.createElement('span');
-      label.textContent = item.name;
-      return label;
-    },
-    renderB(item) {
-      const shape = document.createElement('span');
-      shape.className = `shape ${item.type}`;
-      return shape;
+  const shapeColumn = document.getElementById('shapeColumn');
+  const nameColumn = document.getElementById('nameColumn');
+  const svg = document.querySelector('.connector-layer');
+  const resetButton = document.getElementById('resetGame');
+
+  let selectedShapeId = null;
+
+  function shuffle(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
     }
-  });
+    return copy;
+  }
+
+  function clearSelection() {
+    document.querySelectorAll('.shape-item, .name-item').forEach((el) => {
+      el.classList.remove('selected', 'wrong');
+    });
+  }
+
+  function drawLine(shapeEl, nameEl) {
+    const shapeRect = shapeEl.getBoundingClientRect();
+    const nameRect = nameEl.getBoundingClientRect();
+    const containerRect = svg.parentElement.getBoundingClientRect();
+
+    const x1 = shapeRect.right - containerRect.left;
+    const y1 = shapeRect.top + shapeRect.height / 2 - containerRect.top;
+    const x2 = nameRect.left - containerRect.left;
+    const y2 = nameRect.top + nameRect.height / 2 - containerRect.top;
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    line.setAttribute('stroke', '#000');
+    line.setAttribute('stroke-width', '4');
+    svg.appendChild(line);
+  }
+
+  function buildRound() {
+    svg.innerHTML = '';
+    selectedShapeId = null;
+    clearSelection();
+
+    const shapesToUse = shuffle(allShapes).slice(0, 4);
+    const nameOrder = shuffle([...shapesToUse]);
+
+    shapeColumn.innerHTML = '';
+    nameColumn.innerHTML = '';
+
+    shapesToUse.forEach((shape) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'shape-item';
+      btn.dataset.id = shape.id;
+
+      const icon = document.createElement('span');
+      icon.className = `shape ${shape.type}`;
+
+      btn.appendChild(icon);
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('matched')) return;
+
+        clearSelection();
+        selectedShapeId = shape.id;
+        btn.classList.add('selected');
+      });
+
+      shapeColumn.appendChild(btn);
+    });
+
+    nameOrder.forEach((shape) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'name-item';
+      btn.dataset.id = shape.id;
+      btn.textContent = shape.name;
+
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('matched')) return;
+
+        const shapeEl = document.querySelector(`.shape-item[data-id="${selectedShapeId}"]`);
+
+        if (!selectedShapeId || !shapeEl) return;
+
+        const isMatch = selectedShapeId === shape.id;
+
+        if (isMatch) {
+          shapeEl.classList.add('matched');
+          btn.classList.add('matched');
+          drawLine(shapeEl, btn);
+        } else {
+          shapeEl.classList.add('wrong');
+          btn.classList.add('wrong');
+
+          setTimeout(() => {
+            clearSelection();
+            selectedShapeId = null;
+          }, 500);
+        }
+
+        selectedShapeId = null;
+      });
+
+      nameColumn.appendChild(btn);
+    });
+  }
+
+  buildRound();
+
+  if (resetButton) {
+    resetButton.addEventListener('click', buildRound);
+  }
 }
 
 function initTransportPage() {

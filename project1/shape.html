@@ -9,17 +9,20 @@
 <body data-page="shape">
     <div class="game-wrap">
         <h1>Shape and Name Match</h1>
-        <p class="subtitle">Match the shape to its correct name.</p>
+        <p class="subtitle">Click a shape, then click the matching name.</p>
 
-        <div class="stats">
-            <span>Matches: <strong id="matches">0</strong>/4</span>
-            <span>Turns: <strong id="turns">0</strong></span>
+        <div class="shape-game">
+            <div class="shape-column" id="shapeColumn"></div>
+
+            <svg class="connector-layer" aria-hidden="true"></svg>
+
+            <div class="name-column" id="nameColumn"></div>
+            <span class="shape hexagon"></span>
         </div>
-
-        <div class="board" id="board"></div>
 
         <div class="controls">
             <a class="home-btn" href="project1.html">Back to Home</a>
+            <button class="home-btn reset-btn" type="button" id="resetGame">Reset</button>
         </div>
     </div>
 

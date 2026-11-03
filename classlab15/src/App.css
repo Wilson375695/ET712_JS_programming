@@ -1,0 +1,13 @@
+*{box-sizing: border-box;}
+.App{
+    width: 800px;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 1px 1px 3px grey;
+    margin: 2rem auto;
+    background-color: azure;
+}
+img{
+    width: 100%;
+    display: block;
+}

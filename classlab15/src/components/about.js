@@ -1,6 +1,6 @@
 import React from "react";
 
-const About = function*(){
+const About = function(){
     return (
     <>
         <header className = "header">
@@ -8,7 +8,7 @@ const About = function*(){
         </header>
 
     </>
-    )
-}
+    );
+};
 
 export default About;

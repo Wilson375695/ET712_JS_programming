@@ -13,11 +13,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbars />
-        <Route>
+        <Routes>
           <Route path = '/' element = {<Home />} />
           <Route path = 'contact' element = {<Contact />} />
           <Route path = 'about' element = {<About />} />
-        </Route>
+        </Routes>
       </BrowserRouter>
     </div>
 

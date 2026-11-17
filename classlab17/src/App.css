@@ -1,0 +1,58 @@
+* {box-sizing: border-box;}
+.App{
+  margin: 0%;
+  padding: 0%;
+}
+.title{
+  text-align: center;
+  color: blueviolet;
+}
+.slicewrapper{
+  width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  box-shadow: 1px 1px 3px gray;
+}
+.numberWrapper{
+  display: flex;
+  justify-content: space-around;
+  background-color: lightblue;
+}
+.numberWrapper>div{
+  height: 50px;
+  width: 50px;
+  border: solid 1px gray;
+  border-radius: 50%;
+  margin: 2rem;
+  text-align: center;
+  color: white;
+}
+.msg{
+  font-size: 2rem;
+  font-weight: bolder;
+  text-align: center;
+}
+.btngroup{
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 3rem;
+}
+.btngroup>button{
+  width: 30%;
+  background-color: orangered;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 10px;
+}
+.btngroup>button:hover{
+  background-color: darkblue;
+  box-shadow: 0px 0px 3px 1px gray;
+  font-weight: bolder;
+  cursor: pointer;
+}
+.active{
+  background-color: orangered;
+  box-shadow: 0px 0px 3px 1px gray;
+
+}

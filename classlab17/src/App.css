@@ -54,5 +54,21 @@
 .active{
   background-color: orangered;
   box-shadow: 0px 0px 3px 1px gray;
+}
 
+/* open and close button*/
+h1{text-align: center;}
+.container{
+  width: 1000px;
+  margin: 2rem auto;
+  background-color: aliceblue;
+  padding: 2rem;
+}
+.info{
+  padding-bottom: 2rem;
+}
+.readmore{
+  border-bottom: 2px ridge gray;
+  background-color: white;
+  padding: 1rem;
 }
